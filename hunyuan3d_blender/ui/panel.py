@@ -88,7 +88,7 @@ class H3D_PT_Panel(Panel):
             row.prop(wm_h3d, "h3d_generation_style", text='')
             row.prop(wm_h3d, 'h3d_generation_use_pbr', text='PBR', toggle=True)
             generation_box.prop(wm_h3d, "h3d_generation_count", slider=True)
-            generation_box.prop(wm_h3d, "h3d_generation_remove_background", 
+            generation_box.prop(wm_h3d, "h3d_generation_remove_background",
                               text="Remove Background")
         
         # Advanced settings toggle

@@ -106,9 +106,10 @@ def generate_3d_model(
         "accept-encoding": "gzip, deflate, br, zstd",
         "accept-language": "en-US,en;q=0.9",
         "content-type": "application/json",
-        "Origin": "https://3d.hunyuan.tencent.com", # Often required for POST requests
-        "Referer": "https://3d.hunyuan.tencent.com/", # Mimic browser behavior
+        "Origin": "https://3d.hunyuan.tencent.com",
+        "Referer": "https://3d.hunyuan.tencent.com/",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        # Note: content-length header is auto-calculated by requests library
     }
 
     try:

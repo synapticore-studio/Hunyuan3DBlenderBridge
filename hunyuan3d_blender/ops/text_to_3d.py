@@ -9,6 +9,10 @@ from ..data.scn import GenerationDetails
 from ..utils.ui import ui_tag_redraw
 
 
+# Constants
+DEFAULT_IMAGE_PROMPT = "high quality 3D model"
+
+
 currently_processing_count = 0
 generation_queue = deque()
 timer_id = "generation_timer"
@@ -102,7 +106,7 @@ class H3D_OT_TextTo3D(Operator):
         
         # If only image is provided (no prompt), use a descriptive default
         if not prompt:
-            prompt = "high quality 3D model"
+            prompt = DEFAULT_IMAGE_PROMPT
         
         self.add_to_queue({
             "prompt": prompt,
