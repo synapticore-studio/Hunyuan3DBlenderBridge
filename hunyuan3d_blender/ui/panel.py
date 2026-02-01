@@ -8,6 +8,10 @@ from ..utils.image import get_image_from_url
 from ..prefs import get_prefs
 
 
+# Constants
+PROMPT_MAX_LENGTH = 150
+
+
 class H3D_PT_Panel(Panel):
     bl_label = "Hunyuan 3D"
     bl_idname = "H3D_PT_panel"
@@ -64,9 +68,9 @@ class H3D_PT_Panel(Panel):
         if wm_h3d.h3d_generation_type == 'TEXT_TO_3D':
             col = generation_box.column(align=True)
             char_count = len(wm_h3d.h3d_generation_prompt)
-            if char_count > 150:
+            if char_count > PROMPT_MAX_LENGTH:
                 col.alert = True
-            col.label(text=f'Prompt - {char_count}/150 characters')
+            col.label(text=f'Prompt - {char_count}/{PROMPT_MAX_LENGTH} characters')
             col.prop(wm_h3d, "h3d_generation_prompt", text='')
             row = generation_box.row(heading='Style')
             row.prop(wm_h3d, "h3d_generation_style", text='')
@@ -76,26 +80,33 @@ class H3D_PT_Panel(Panel):
             generation_box.prop(wm_h3d, "h3d_generation_image", text="Input Image")
             col = generation_box.column(align=True)
             char_count = len(wm_h3d.h3d_generation_prompt)
-            if char_count > 150:
+            if char_count > PROMPT_MAX_LENGTH:
                 col.alert = True
-            col.label(text=f'Prompt (optional) - {char_count}/150 characters')
+            col.label(text=f'Prompt (optional) - {char_count}/{PROMPT_MAX_LENGTH} characters')
             col.prop(wm_h3d, "h3d_generation_prompt", text='')
             row = generation_box.row(heading='Style')
             row.prop(wm_h3d, "h3d_generation_style", text='')
             row.prop(wm_h3d, 'h3d_generation_use_pbr', text='PBR', toggle=True)
             generation_box.prop(wm_h3d, "h3d_generation_count", slider=True)
-            generation_box.prop(wm_h3d, "h3d_generation_remove_background", text="Remove Background")
+            generation_box.prop(wm_h3d, "h3d_generation_remove_background", 
+                              text="Remove Background")
         
         # Advanced settings toggle
-        generation_box.prop(wm_h3d, "h3d_show_advanced", text="Advanced Settings", toggle=True, icon='TRIA_DOWN' if wm_h3d.h3d_show_advanced else 'TRIA_RIGHT')
+        generation_box.prop(wm_h3d, "h3d_show_advanced", text="Advanced Settings", 
+                          toggle=True, 
+                          icon='TRIA_DOWN' if wm_h3d.h3d_show_advanced else 'TRIA_RIGHT')
         
         if wm_h3d.h3d_show_advanced:
             advanced_box = generation_box.box().column(align=True)
             advanced_box.label(text="Advanced Settings:", icon='SETTINGS')
-            advanced_box.prop(wm_h3d, "h3d_generation_octree_resolution", text="Mesh Resolution")
-            advanced_box.prop(wm_h3d, "h3d_generation_inference_steps", text="Inference Steps")
-            advanced_box.prop(wm_h3d, "h3d_generation_guidance_scale", text="Guidance Scale")
-            advanced_box.prop(wm_h3d, "h3d_generation_face_count", text="Face Count")
+            advanced_box.prop(wm_h3d, "h3d_generation_octree_resolution", 
+                            text="Mesh Resolution")
+            advanced_box.prop(wm_h3d, "h3d_generation_inference_steps", 
+                            text="Inference Steps")
+            advanced_box.prop(wm_h3d, "h3d_generation_guidance_scale", 
+                            text="Guidance Scale")
+            advanced_box.prop(wm_h3d, "h3d_generation_face_count", 
+                            text="Face Count")
 
         op = generation_box.operator("h3d.text_to_3d", text="Generate")
         op.prompt = wm_h3d.h3d_generation_prompt

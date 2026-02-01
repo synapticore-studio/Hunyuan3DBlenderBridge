@@ -101,9 +101,9 @@ class H3D_OT_TextTo3D(Operator):
             self.report({'ERROR'}, "Please provide either a prompt or an image")
             return {'CANCELLED'}
         
-        # If only image is provided, use a default prompt
+        # If only image is provided, use a descriptive default prompt
         if not prompt and self.image:
-            prompt = "3D model from image"
+            prompt = "high quality 3D model"
         
         self.add_to_queue({
             "prompt": prompt,

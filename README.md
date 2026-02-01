@@ -44,7 +44,7 @@ This addon bundles the following Python modules:
 
 *   imageio-2.37.0
 *   numpy-2.2.3
-*   pillow-11.1.0
+*   pillow-11.1.0 (required for image-to-3D functionality)
 
 These dependencies are handled automatically by the addon.
 
