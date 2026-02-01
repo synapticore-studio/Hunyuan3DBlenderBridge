@@ -1,5 +1,5 @@
 from bpy.types import WindowManager, PropertyGroup, Image
-from bpy.props import StringProperty, BoolProperty, PointerProperty, EnumProperty, IntProperty
+from bpy.props import StringProperty, BoolProperty, PointerProperty, EnumProperty, IntProperty, FloatProperty
 
 
 class H3D_WM_Properties(PropertyGroup):
@@ -17,6 +17,49 @@ class H3D_WM_Properties(PropertyGroup):
     h3d_generation_prompt: StringProperty(name="Generation Prompt", default="")
     h3d_generation_image: PointerProperty(type=Image, name="Image")
     h3d_generation_use_pbr: BoolProperty(name="PBR", default=True)
+    
+    # Advanced generation settings
+    h3d_generation_remove_background: BoolProperty(
+        name="Remove Background", 
+        description="Automatically remove background from input image (for Image-to-3D)",
+        default=True
+    )
+    h3d_generation_octree_resolution: EnumProperty(
+        name="Mesh Resolution",
+        description="Resolution of the generated mesh",
+        default="256",
+        items=[
+            ("256", "256", "Standard resolution"),
+            ("384", "384", "Medium resolution"),
+            ("512", "512", "High resolution"),
+        ]
+    )
+    h3d_generation_inference_steps: IntProperty(
+        name="Inference Steps",
+        description="Number of inference steps for generation",
+        default=5,
+        min=5,
+        max=50
+    )
+    h3d_generation_guidance_scale: FloatProperty(
+        name="Guidance Scale",
+        description="Guidance scale for generation",
+        default=5.0,
+        min=1.0,
+        max=15.0
+    )
+    h3d_generation_face_count: IntProperty(
+        name="Face Count",
+        description="Maximum number of faces for texture generation",
+        default=40000,
+        min=10000,
+        max=100000
+    )
+    h3d_show_advanced: BoolProperty(
+        name="Show Advanced Settings",
+        description="Show advanced generation settings",
+        default=False
+    )
     
     ui_image_preview_scale: EnumProperty(name="Image Preview Scale", default="AUTO", items=[
         ('AUTO', "Auto", "Auto"),
@@ -69,6 +112,12 @@ class WM_Properties:
     h3d_generation_prompt: str
     h3d_generation_image: Image
     h3d_generation_use_pbr: bool
+    h3d_generation_remove_background: bool
+    h3d_generation_octree_resolution: str
+    h3d_generation_inference_steps: int
+    h3d_generation_guidance_scale: float
+    h3d_generation_face_count: int
+    h3d_show_advanced: bool
     
     ui_image_preview_scale: str
     ui_image_preview_shading_type: str

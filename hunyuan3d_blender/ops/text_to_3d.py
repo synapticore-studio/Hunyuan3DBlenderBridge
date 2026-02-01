@@ -1,12 +1,16 @@
 import bpy
-from bpy.types import Operator
-from bpy.props import StringProperty, IntProperty, BoolProperty
+from bpy.types import Operator, Image
+from bpy.props import StringProperty, IntProperty, BoolProperty, PointerProperty, FloatProperty
 from collections import deque
 from ..api.h3d import generate_3d_model, get_creation_details
 from ..utils import TimerManager
 from ..data import H3D_Data
 from ..data.scn import GenerationDetails
 from ..utils.ui import ui_tag_redraw
+
+
+# Constants
+DEFAULT_IMAGE_PROMPT = "high quality 3D model"
 
 
 currently_processing_count = 0
@@ -74,27 +78,49 @@ def generation_timer():
 
 class H3D_OT_TextTo3D(Operator):
     bl_idname = "h3d.text_to_3d"
-    bl_label = "Text to 3D"
+    bl_label = "Generate 3D"
+    bl_description = "Generate 3D model from text or image"
 
     prompt: StringProperty(name="Prompt", default="")
     style: StringProperty(name="Style", default="")
     count: IntProperty(name="Count", default=4, min=1)
     use_pbr: BoolProperty(name="PBR", default=True)
+    image: PointerProperty(type=Image, name="Image")
+    remove_background: BoolProperty(name="Remove Background", default=True)
+    octree_resolution: IntProperty(name="Octree Resolution", default=256)
+    inference_steps: IntProperty(name="Inference Steps", default=5)
+    guidance_scale: FloatProperty(name="Guidance Scale", default=5.0)
+    face_count: IntProperty(name="Face Count", default=40000)
 
     def execute(self, context):
         if self.count == 0:
             return {'CANCELLED'}
-        prompt: str = self.prompt
-        prompt = prompt.strip()
-        if prompt == "":
+        
+        # Get prompt and sanitize
+        prompt: str = self.prompt.strip()
+        
+        # Validate: need either prompt or image
+        if not prompt and not self.image:
+            self.report({'ERROR'}, "Please provide either a prompt or an image")
             return {'CANCELLED'}
+        
+        # If only image is provided (no prompt), use a descriptive default
+        if not prompt:
+            prompt = DEFAULT_IMAGE_PROMPT
+        
         self.add_to_queue({
             "prompt": prompt,
             "title": prompt,
             "style": "" if self.style == 'DEFAULT' else self.style,
             "count": self.count,
             "enable_pbr": self.use_pbr,
-            "enable_low_poly": False
+            "enable_low_poly": False,
+            "image": self.image,
+            "remove_background": self.remove_background,
+            "octree_resolution": self.octree_resolution,
+            "inference_steps": self.inference_steps,
+            "guidance_scale": self.guidance_scale,
+            "face_count": self.face_count
         })
         return {'FINISHED'}
 
