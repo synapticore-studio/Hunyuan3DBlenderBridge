@@ -84,6 +84,18 @@ class H3D_PT_Panel(Panel):
             row.prop(wm_h3d, "h3d_generation_style", text='')
             row.prop(wm_h3d, 'h3d_generation_use_pbr', text='PBR', toggle=True)
             generation_box.prop(wm_h3d, "h3d_generation_count", slider=True)
+            generation_box.prop(wm_h3d, "h3d_generation_remove_background", text="Remove Background")
+        
+        # Advanced settings toggle
+        generation_box.prop(wm_h3d, "h3d_show_advanced", text="Advanced Settings", toggle=True, icon='TRIA_DOWN' if wm_h3d.h3d_show_advanced else 'TRIA_RIGHT')
+        
+        if wm_h3d.h3d_show_advanced:
+            advanced_box = generation_box.box().column(align=True)
+            advanced_box.label(text="Advanced Settings:", icon='SETTINGS')
+            advanced_box.prop(wm_h3d, "h3d_generation_octree_resolution", text="Mesh Resolution")
+            advanced_box.prop(wm_h3d, "h3d_generation_inference_steps", text="Inference Steps")
+            advanced_box.prop(wm_h3d, "h3d_generation_guidance_scale", text="Guidance Scale")
+            advanced_box.prop(wm_h3d, "h3d_generation_face_count", text="Face Count")
 
         op = generation_box.operator("h3d.text_to_3d", text="Generate")
         op.prompt = wm_h3d.h3d_generation_prompt
@@ -91,6 +103,11 @@ class H3D_PT_Panel(Panel):
         op.count = wm_h3d.h3d_generation_count
         op.use_pbr = wm_h3d.h3d_generation_use_pbr
         op.image = wm_h3d.h3d_generation_image
+        op.remove_background = wm_h3d.h3d_generation_remove_background
+        op.octree_resolution = int(wm_h3d.h3d_generation_octree_resolution)
+        op.inference_steps = wm_h3d.h3d_generation_inference_steps
+        op.guidance_scale = wm_h3d.h3d_generation_guidance_scale
+        op.face_count = wm_h3d.h3d_generation_face_count
 
     def draw_generation_details(self, context: bpy.types.Context, layout: bpy.types.UILayout):
         scn_h3d = H3D_Data.SCN(context)

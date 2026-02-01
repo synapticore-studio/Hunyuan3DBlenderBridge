@@ -1,6 +1,6 @@
 import bpy
 from bpy.types import Operator, Image
-from bpy.props import StringProperty, IntProperty, BoolProperty, PointerProperty
+from bpy.props import StringProperty, IntProperty, BoolProperty, PointerProperty, FloatProperty
 from collections import deque
 from ..api.h3d import generate_3d_model, get_creation_details
 from ..utils import TimerManager
@@ -82,6 +82,11 @@ class H3D_OT_TextTo3D(Operator):
     count: IntProperty(name="Count", default=4, min=1)
     use_pbr: BoolProperty(name="PBR", default=True)
     image: PointerProperty(type=Image, name="Image")
+    remove_background: BoolProperty(name="Remove Background", default=True)
+    octree_resolution: IntProperty(name="Octree Resolution", default=256)
+    inference_steps: IntProperty(name="Inference Steps", default=5)
+    guidance_scale: FloatProperty(name="Guidance Scale", default=5.0)
+    face_count: IntProperty(name="Face Count", default=40000)
 
     def execute(self, context):
         if self.count == 0:
@@ -107,7 +112,12 @@ class H3D_OT_TextTo3D(Operator):
             "count": self.count,
             "enable_pbr": self.use_pbr,
             "enable_low_poly": False,
-            "image": self.image
+            "image": self.image,
+            "remove_background": self.remove_background,
+            "octree_resolution": self.octree_resolution,
+            "inference_steps": self.inference_steps,
+            "guidance_scale": self.guidance_scale,
+            "face_count": self.face_count
         })
         return {'FINISHED'}
 

@@ -6,7 +6,20 @@ from bpy.types import Image
 
 from ..session import get_session
 
-def generate_3d_model(prompt: str, title: str, style: str = "", count: int = 4, enable_pbr: bool = True, enable_low_poly: bool = False, image: Image = None) -> str | None:
+def generate_3d_model(
+    prompt: str, 
+    title: str, 
+    style: str = "", 
+    count: int = 4, 
+    enable_pbr: bool = True, 
+    enable_low_poly: bool = False, 
+    image: Image = None,
+    remove_background: bool = True,
+    octree_resolution: int = 256,
+    inference_steps: int = 5,
+    guidance_scale: float = 5.0,
+    face_count: int = 40000
+) -> str | None:
     """Sends a request to the Hunyuan 3D API to generate a 3D model based on a text prompt or image.
 
         Arguments:
@@ -17,6 +30,11 @@ def generate_3d_model(prompt: str, title: str, style: str = "", count: int = 4, 
             enable_pbr: bool - Whether to enable PBR for the 3D model.
             enable_low_poly: bool - Whether to enable low poly for the 3D model.
             image: Image - Optional image for image-to-3D generation.
+            remove_background: bool - Whether to remove background from input image.
+            octree_resolution: int - Resolution of the generated mesh (256, 384, or 512).
+            inference_steps: int - Number of inference steps (5-50).
+            guidance_scale: float - Guidance scale for generation (1.0-15.0).
+            face_count: int - Maximum number of faces for texture generation.
     """
 
     session = get_session()
@@ -31,7 +49,12 @@ def generate_3d_model(prompt: str, title: str, style: str = "", count: int = 4, 
         "modelType": "modelCreationV2.5",
         "count": count,
         "enable_pbr": enable_pbr,
-        "enableLowPoly": enable_low_poly
+        "enableLowPoly": enable_low_poly,
+        "remove_background": remove_background,
+        "octree_resolution": octree_resolution,
+        "num_inference_steps": inference_steps,
+        "guidance_scale": guidance_scale,
+        "face_count": face_count
     }
     
     # Add image data if provided (for image-to-3D)
