@@ -7,7 +7,8 @@ Hunyuan3d Bridge is a Blender addon that integrates Hunyuan3D (specially Hunyuan
 ## Features
 
 *   Generate 3D models from text prompts using Hunyuan3D API.
-*   Latest Hunyuan3D 2.5!
+*   Generate 3D models from images (Image-to-3D).
+*   Latest Hunyuan3D 2.5 with editing features!
 *   Download and Import 3D models into Blender.
 *   3D assets management.
 *   Customizable settings for model generation.
@@ -16,14 +17,14 @@ Hunyuan3d Bridge is a Blender addon that integrates Hunyuan3D (specially Hunyuan
 
 ## Requirements
 
-*   Blender 4.4+
+*   Blender 5.0+
 *   Python 3.11+
 *   Hunyuan3D account (you should provide a key and user to the addon)
 
 ## Installation
 
 1.  Download the latest release `hunyuan3d_bridge.zip` (or the specific addon file) from the releases page or clone repo and compress the `hunyuan3d_blender` folder into a `zip` file.
-2.  Open Blender (4.4+).
+2.  Open Blender (5.0+).
 3.  Go to `Edit` > `Preferences` > `Add-ons`.
 4.  Click `Install from disk` and navigate to the downloaded `.zip` file.
 5.  Select the file and click `Install Add-on`.
@@ -33,7 +34,9 @@ Hunyuan3d Bridge is a Blender addon that integrates Hunyuan3D (specially Hunyuan
 
 *   N-Panel, 'AI' tab, panel called 'Hunyuan3D'
 *   First, you need to provide a key and user to the addon and start a session.
-*   Then, you can generate 3D models from text prompts using the `Generate` button.
+*   Then, you can generate 3D models from text prompts or images using the `Generate` button.
+*   For text-to-3D: Enter a text prompt describing the 3D model you want.
+*   For image-to-3D: Select an image and optionally provide a prompt for additional guidance.
 
 ## Dependencies
 
@@ -47,7 +50,7 @@ These dependencies are handled automatically by the addon.
 
 ## Minimum Blender Version
 
-Blender 4.4.0 or newer is required to use this addon.
+Blender 5.0.0 or newer is required to use this addon.
 
 ## License
 
@@ -67,5 +70,5 @@ This addon requires the following permissions:
 ## Future Work
 
 *   Improve the user interface.
-*   Support image to 3d.
 *   Support multi-image to 3d.
+*   Add mesh editing features.

@@ -1,4 +1,5 @@
 import bpy
+import os
 from bpy.types import Scene, PropertyGroup, Image, ImageTexture
 from bpy.props import PointerProperty, StringProperty, IntProperty, FloatProperty, BoolProperty, EnumProperty, CollectionProperty
 from typing import List, Dict, Any

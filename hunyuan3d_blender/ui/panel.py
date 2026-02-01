@@ -73,14 +73,24 @@ class H3D_PT_Panel(Panel):
             row.prop(wm_h3d, 'h3d_generation_use_pbr', text='PBR', toggle=True)
             generation_box.prop(wm_h3d, "h3d_generation_count", slider=True)
         elif wm_h3d.h3d_generation_type == 'IMAGE_TO_3D':
-            generation_box.prop(wm_h3d, "h3d_generation_image")
-            generation_box.prop(wm_h3d, 'h3d_generation_use_pbr')
+            generation_box.prop(wm_h3d, "h3d_generation_image", text="Input Image")
+            col = generation_box.column(align=True)
+            char_count = len(wm_h3d.h3d_generation_prompt)
+            if char_count > 150:
+                col.alert = True
+            col.label(text=f'Prompt (optional) - {char_count}/150 characters')
+            col.prop(wm_h3d, "h3d_generation_prompt", text='')
+            row = generation_box.row(heading='Style')
+            row.prop(wm_h3d, "h3d_generation_style", text='')
+            row.prop(wm_h3d, 'h3d_generation_use_pbr', text='PBR', toggle=True)
+            generation_box.prop(wm_h3d, "h3d_generation_count", slider=True)
 
-        op = generation_box.operator("h3d.text_to_3d")
+        op = generation_box.operator("h3d.text_to_3d", text="Generate")
         op.prompt = wm_h3d.h3d_generation_prompt
         op.style = wm_h3d.h3d_generation_style
         op.count = wm_h3d.h3d_generation_count
         op.use_pbr = wm_h3d.h3d_generation_use_pbr
+        op.image = wm_h3d.h3d_generation_image
 
     def draw_generation_details(self, context: bpy.types.Context, layout: bpy.types.UILayout):
         scn_h3d = H3D_Data.SCN(context)
