@@ -4,6 +4,12 @@ import base64
 import io
 from bpy.types import Image
 
+try:
+    from PIL import Image as PILImage
+except ImportError:
+    PILImage = None
+    print("⚠️  Warning: Pillow (PIL) not available. Image-to-3D functionality will not work.")
+
 from ..session import get_session
 
 def generate_3d_model(
@@ -59,6 +65,10 @@ def generate_3d_model(
     
     # Add image data if provided (for image-to-3D)
     if image is not None:
+        if PILImage is None:
+            print("❌ Error: Pillow (PIL) is required for image-to-3D generation")
+            return None
+            
         try:
             # Get image pixels as bytes
             width, height = image.size
@@ -74,7 +84,6 @@ def generate_3d_model(
                 pixel_bytes.extend([r, g, b, a])
             
             # Create PIL Image (requires Pillow from wheels)
-            from PIL import Image as PILImage
             pil_image = PILImage.frombytes('RGBA', (width, height), bytes(pixel_bytes))
             
             # Convert to base64

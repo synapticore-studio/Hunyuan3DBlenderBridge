@@ -92,17 +92,16 @@ class H3D_OT_TextTo3D(Operator):
         if self.count == 0:
             return {'CANCELLED'}
         
-        # For text-to-3D, prompt is required
-        prompt: str = self.prompt
-        prompt = prompt.strip()
+        # Get prompt and sanitize
+        prompt: str = self.prompt.strip()
         
-        # For image-to-3D, either prompt or image is required
+        # Validate: need either prompt or image
         if not prompt and not self.image:
             self.report({'ERROR'}, "Please provide either a prompt or an image")
             return {'CANCELLED'}
         
-        # If only image is provided, use a descriptive default prompt
-        if not prompt and self.image:
+        # If only image is provided (no prompt), use a descriptive default
+        if not prompt:
             prompt = "high quality 3D model"
         
         self.add_to_queue({
