@@ -1,5 +1,7 @@
 # Hunyuan3d x Blender Bridge
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N71WOHZ3)
+
 ## Description
 
 Hunyuan3d Bridge is a Blender addon that integrates Hunyuan3D (specially Hunyuan 2.5) functionalities directly within Blender. This allows users to leverage the power of Hunyuan3D for their 3D projects without leaving the Blender environment. (Further details about the specific functionalities can be added here).
